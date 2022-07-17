@@ -1,7 +1,8 @@
 bin/
 include/
 lib/
+venv/
 pyvenv.cfg
 .idea/
 .DS_STORE
-
+*__pycache__
