@@ -1,6 +1,6 @@
 # Generate number of '#' given an input
 # input 3 -> "###"
-from my_time import mytime
+from util import mytime
 
 
 @mytime

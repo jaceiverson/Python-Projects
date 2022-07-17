@@ -17,51 +17,61 @@ https://www.youtube.com/watch?v=i-xqRDwpilM
 
 import random
 
-class Horse():
-  def __init__(self, num:int, t:float):
-    self.number = num
-    self.time = t
-    self.heat_num = None
-    self.heat_pos = None
-    self.overall_pos = None
 
-  def set_heat(self, heat:int):
-    self.heat_num = heat
+class Horse:
+    def __init__(self, num: int, t: float):
+        self.number = num
+        self.time = t
+        self.heat_num = None
+        self.heat_pos = None
+        self.overall_pos = None
 
-  def show_stats(self, hide_time:bool = True) -> None :
-    if hide_time:
-      print(f"Number: {self.number} | Heat: {self.heat_num} | Heat Pos: {self.heat_pos} | Overall Position: {self.overall_pos}")
-    else:
-      print(f"Number: {self.number} | Heat: {self.heat_num} | Heat Pos: {self.heat_pos} | Overall Position: {self.overall_pos} | Time: {self.time}")
+    def set_heat(self, heat: int):
+        self.heat_num = heat
 
-def race_horses(horse_list:list, heat:str = None) -> List:
-  if heat is not None:
-    # assign heat number
-    [x.set_heat(heat) for x in horse_list]
-  # "race" the horses
-  horse_list.sort(key=lambda x: x.time, reverse=False)
+    def show_stats(self, hide_time: bool = True) -> None:
+        if hide_time:
+            print(
+                f"Number: {self.number} | Heat: {self.heat_num} | Heat Pos: {self.heat_pos} | Overall Position: {self.overall_pos}"
+            )
+        else:
+            print(
+                f"Number: {self.number} | Heat: {self.heat_num} | Heat Pos: {self.heat_pos} | Overall Position: {self.overall_pos} | Time: {self.time}"
+            )
 
-  return horse_list
 
-def heat_one(horse_list:list) -> List:
-  place = 0
-  for horse in horse_list:
-    place+=1
-    horse.heat_pos = place
+def race_horses(horse_list: list, heat: str = None) -> list:
+    if heat is not None:
+        # assign heat number
+        [x.set_heat(heat) for x in horse_list]
+    # "race" the horses
+    horse_list.sort(key=lambda x: x.time, reverse=False)
 
-  return horse_list
+    return horse_list
+
+
+def heat_one(horse_list: list) -> list:
+    place = 0
+    for horse in horse_list:
+        place += 1
+        horse.heat_pos = place
+
+    return horse_list
+
 
 # get 25 random times between 20 and 22
-horse_times = [random.uniform(20,22) for x in range(25)]
+horse_times = [random.uniform(20, 22) for x in range(25)]
 # create Horse objects and assign those times
-horses = [Horse(x,horse_times[x]) for x in range(25)]
+horses = [Horse(x, horse_times[x]) for x in range(25)]
 
 # race all 25 in groups of 5 (5 races)
-for race in range(0,len(horses)-1,5):
-  horses[race:race+5] = heat_one(race_horses(horses[race:race+5],heat=(race//5)+1))
+for race in range(0, len(horses) - 1, 5):
+    horses[race : race + 5] = heat_one(
+        race_horses(horses[race : race + 5], heat=(race // 5) + 1)
+    )
 
 # here are the 1st place finishers
-heat1_first_place_horses = [x for x in horses if x.heat_pos ==1]
+heat1_first_place_horses = [x for x in horses if x.heat_pos == 1]
 
 # 6th race - the first place horses
 first_place_race_results = race_horses(heat1_first_place_horses)
@@ -70,18 +80,27 @@ first_place_race_results = race_horses(heat1_first_place_horses)
 first_place_race_results[0].overall_pos = 1
 
 # winning horse needs 2nd and 3rd from their heat
-group1 = [horse for horse in horses if horse.heat_num == winning_horse.heat_num and horse.heat_pos in (2,3)]
+group1 = [
+    horse
+    for horse in horses
+    if horse.heat_num == winning_horse.heat_num and horse.heat_pos in (2, 3)
+]
 # 2nd place needs 2nd from their heat as well themselves
-group2 = [horse for horse in horses if horse.heat_num == first_place_race_results[1].heat_num and horse.heat_pos in (1,2)]
+group2 = [
+    horse
+    for horse in horses
+    if horse.heat_num == first_place_race_results[1].heat_num
+    and horse.heat_pos in (1, 2)
+]
 # 3rd place races again
 group3 = [first_place_race_results[2]]
 
 # 7th and final race
-final_race_results = race_horses(group1+group2+group3)
+final_race_results = race_horses(group1 + group2 + group3)
 
 # assign the final positions
 final_race_results[0].overall_pos = 2
-final_race_results[1].overall_pos = 3 
+final_race_results[1].overall_pos = 3
 
 # top 3
 top3 = [x for x in horses if x.overall_pos is not None]
@@ -90,13 +109,13 @@ top3.sort(key=lambda x: x.overall_pos, reverse=False)
 print("--TOP 3--")
 [x.show_stats(hide_time=False) for x in top3]
 
-# how easy it is if we can use the time 
+# how easy it is if we can use the time
 horses.sort(key=lambda x: x.time, reverse=False)
 # print all values
 print("--ALL HORSES--")
 print([x.show_stats(hide_time=False) for x in horses])
- 
-'''
+
+"""
 SOLUTION Description
 
 7 races
@@ -132,4 +151,4 @@ __Results__
 1st place = 2nd fastest horse
 2nd place = 3rd fastest horse
 
-'''
+"""
