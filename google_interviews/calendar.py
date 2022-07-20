@@ -14,8 +14,6 @@ Took me 62 mins with a few interuptions to solve
 
 from dataclasses import dataclass
 
-from yaml import parse
-
 
 @dataclass
 class Calendar:
