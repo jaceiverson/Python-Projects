@@ -123,3 +123,4 @@ def main():
         ["10:00", "18:30"],
     )
     avalible_times = find_meeting_time(jace, tim, 15)
+    print(avalible_times)
