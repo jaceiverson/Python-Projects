@@ -6,3 +6,4 @@ pyvenv.cfg
 .idea/
 .DS_STORE
 *__pycache__
+*.egg*

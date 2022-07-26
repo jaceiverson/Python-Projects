@@ -1,5 +1,7 @@
 pandas
 numpy
 matplotlib
+# my utility functions
+-e . 
 # formating
 black
