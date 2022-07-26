@@ -1,5 +1,10 @@
 """
 https://youtu.be/vHKzIPwWQkg
+
+Pretty happy with my solution on this one. I was able to get a working solution
+in under an hour without any previous knowledge on the subject. 
+
+I would change a few things, but I am overall satisfied that my solution works. 
 """
 
 
