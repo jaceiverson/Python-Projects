@@ -7,3 +7,6 @@ pyvenv.cfg
 .DS_STORE
 *__pycache__
 *.egg*
+.env
+credentials/
+client_secret.json
