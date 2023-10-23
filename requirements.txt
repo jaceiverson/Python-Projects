@@ -1,6 +1,9 @@
 pandas
 numpy
 matplotlib
+rich
+tqdm
+requests
 # my utility functions
 -e . 
 # formating
