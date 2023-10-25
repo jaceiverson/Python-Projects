@@ -8,3 +8,7 @@ requests
 -e . 
 # formating
 black
+# fast api
+uvicorn
+fastapi
+pydantic

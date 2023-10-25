@@ -10,3 +10,4 @@ pyvenv.cfg
 .env
 credentials/
 client_secret.json
+.vscode
