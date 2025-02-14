@@ -1,11 +1,29 @@
-from cProfile import run
 import pickle
-from time import perf_counter_ns
 from configparser import ConfigParser
+from cProfile import run
+from time import perf_counter_ns
+
+from rich.console import Console
+from rich.table import Table
 
 """
 WRAPPERS
 """
+
+
+def build_output_table(function_name: str, time: int, runs: int):
+    """
+    takes in a function name, time, and runs and returns a formatted string
+    """
+    table = Table()
+    table.add_column("Function Name", justify="center", style="yellow")
+    table.add_column("Avg Time (ns)", justify="center", style="green")
+    table.add_column("Executions", justify="center", style="blue")
+
+    table.add_row(function_name, f"{time:,}", str(runs))
+    return table
+
+
 # a timer wrapper to time functions in ns
 def mytime(func):
     def wrapper(*args, **kwargs):
@@ -19,18 +37,30 @@ def mytime(func):
 
 
 # average time decorator
-def avgtime(func):
-    def wrapper(*args, **kwargs):
-        run_times = kwargs["run_times"] if "run_times" in kwargs else 1
-        times = []
-        for _ in range(run_times):
-            start = perf_counter_ns()
-            func()
-            end = perf_counter_ns()
-            times.append(end - start)
-        print(f"{func.__name__:>10} : {sum(times)/len(times):>10} ns")
+def avgtime(run_times: int = 10, just_print: bool = False):
+    def wrap(func):
+        def wrapper(*args, **kwargs):
+            times = []
+            for _ in range(run_times):
+                start = perf_counter_ns()
+                func()
+                end = perf_counter_ns()
+                times.append(end - start)
 
-    return wrapper
+            if just_print:
+                print(
+                    f"{func.__name__:>30}:{int(sum(times)/len(times)):>5,} ns:{run_times:>5,}runs"
+                )
+            else:
+                table = build_output_table(
+                    func.__name__, int(sum(times) / len(times)), run_times
+                )
+                console = Console()
+                console.print(table)
+
+        return wrapper
+
+    return wrap
 
 
 """
@@ -109,7 +139,6 @@ def write(data, filepath="config.ini"):
 
 
 def read(filepath="config.ini", out=False):
-
     config = ConfigParser()
 
     config.read(filepath)
